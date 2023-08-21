@@ -240,7 +240,7 @@ export default function () {
         }}>
           <Text style={{ fontSize: 16, color: COLORS.black }}>Already have an account</Text>
           <Pressable
-            onPress={() => { }}
+            onPress={() => { router.push('/signIn') }}
           >
             <Text style={{
               fontSize: 16,

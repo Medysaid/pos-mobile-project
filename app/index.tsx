@@ -144,7 +144,7 @@ export default function () {
             title="Join Now"
             onPress={() => {
 
-              router.replace('/signup');
+              router.push('/signup');
             }}
             style={{
               marginTop: 22,
@@ -162,7 +162,7 @@ export default function () {
               color: COLORS.white
             }}>Already have an account ?</Text>
             <Pressable
-              onPress={() => router.replace('/signIn')}
+              onPress={() => router.push('/signIn')}
             >
               <Text style={{
                 fontSize: 16,
