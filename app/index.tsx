@@ -11,11 +11,9 @@
 // }
 
 // import React from 'react';
-import { View, Text, Image, Pressable, TextInput, TouchableOpacity, StyleSheet } from 'react-native'
+import { View, Text, Image, Pressable, StyleSheet } from 'react-native'
 import React, { useState } from 'react'
-import { SafeAreaView } from "react-native-safe-area-context";
 import COLORS from '../constants/Colors';
-import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import Button from '../components/Button';
 import { Link, router } from 'expo-router';
@@ -97,7 +95,7 @@ export default function () {
           />
         </View>
 
-        {/* content  */}
+
 
         <View style={{
           paddingHorizontal: 22,
@@ -121,27 +119,17 @@ export default function () {
               fontSize: 16,
               color: COLORS.white,
               marginVertical: 4
-            }}>Connect with each other with chatting</Text>
+            }}>Connect with each other with trade</Text>
             <Text style={{
               fontSize: 16,
               color: COLORS.white,
-            }}>Calling, Enjoy Safe and private texting</Text>
+            }}>Sale, Enjoy Safe and private record</Text>
           </View>
 
-          <View style={{ marginVertical: 22 }}>
-            <Text style={{
-              fontSize: 16,
-              color: COLORS.white,
-              marginVertical: 4
-            }}>Connect with each other with chatting</Text>
-            <Text style={{
-              fontSize: 16,
-              color: COLORS.white,
-            }}>Calling, Enjoy Safe and private texting</Text>
-          </View>
+
 
           <Button
-            title="Join Now"
+            title="Register Now"
             onPress={() => {
 
               router.push('/signup');
