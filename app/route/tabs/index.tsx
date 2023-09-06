@@ -18,11 +18,27 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import Button from '../../../components/Button';
 import { Appbar, Card, FAB, SegmentedButtons } from 'react-native-paper';
 import { LineChart } from 'react-native-chart-kit';
+import AppBars from '../../../components/AppBars';
+import Icon from 'react-native-paper/src/components/Icon';
 const BOTTOM_APPBAR_HEIGHT = 80;
 const MEDIUM_FAB_HEIGHT = 56;
 const width = Dimensions.get('window').width / 2 - 30;
 const screenWidth = Dimensions.get("window").width;
 export default function () {
+  const users = [
+    { id: '1', name: 'products 1', total: 10000 },
+    { id: '2', name: 'products 2', total: 20000 },
+    { id: '3', name: 'products 3', total: 30000 },
+    // Add more user data here
+  ];
+  const renderItem = ({ item }: any) => (
+    <View style={style.userItem}>
+      <Icon source="pound-box" size={23} color="black" />
+      <Text style={style.userName}>{item.name}</Text>
+      <Text style={style.userName}>{item.total}</Text>
+    </View>
+  );
+
   const [catergoryIndex, setCategoryIndex] = React.useState(0);
 
   const categories = ['POPULAR', 'ORGANIC', 'INDOORS', 'SYNTHETIC'];
@@ -37,7 +53,7 @@ export default function () {
         strokeWidth: 2 // optional
       }
     ],
-    legend: ["Rainy Days"] // optional
+    legend: ["Sales"] // optional
   };
   const chartConfig = {
     backgroundGradientFrom: "#fff",
@@ -66,11 +82,6 @@ export default function () {
                 alignItems: 'center',
 
               }}>
-              {/* <Icon
-                name="favorite"
-                size={18}
-                color={plant.like ? COLORS.red : COLORS.black}
-              /> */}
 
             </View>
           </View>
@@ -87,7 +98,7 @@ export default function () {
           </View>
 
           <Text style={{ fontWeight: 'bold', fontSize: 17, marginTop: 10 }}>
-            ''
+            {plant.name}
           </Text>
           <View
             style={{
@@ -96,7 +107,7 @@ export default function () {
               marginTop: 5,
             }}>
             <Text style={{ fontSize: 19, fontWeight: 'bold' }}>
-              ${plant.price}
+              TZS {plant.price}
             </Text>
             <View
               style={{
@@ -119,11 +130,7 @@ export default function () {
   };
   return (
     <>
-      <Appbar.Header style={{ backgroundColor: '#ADD8E6' }}>
-        <Appbar.Content title="Pos" />
-        <Appbar.Action icon="magnify" onPress={() => { }} />
-        <Appbar.Action icon="dots-vertical" onPress={() => { }} />
-      </Appbar.Header>
+      <AppBars title="POS Home" />
       <SafeAreaView
         style={{ flex: 1, paddingHorizontal: 20, backgroundColor: COLORS.white }}>
 
@@ -162,7 +169,7 @@ export default function () {
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{
             marginTop: 10,
-            paddingBottom: 50,
+            paddingBottom: 40,
           }}
           numColumns={2}
           data={plants}
@@ -170,6 +177,13 @@ export default function () {
             return <Card1 plant={item} />;
           }}
         />
+
+        <FlatList
+          data={users}
+          renderItem={renderItem}
+          keyExtractor={(item) => item.id}
+        />
+
         {/* <FAB
         mode="flat"
         size="medium"
@@ -189,6 +203,21 @@ export default function () {
 
 }
 const style = StyleSheet.create({
+  container1: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  userItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 10,
+    borderBottomWidth: 1,
+    borderColor: '#ddd',
+  },
+  userName: {
+    marginLeft: 20,
+  },
   categoryContainer: {
     flexDirection: 'row',
     marginTop: 30,
@@ -203,7 +232,7 @@ const style = StyleSheet.create({
     borderColor: COLORS.green,
   },
   card: {
-    height: 225,
+    height: 200,
     backgroundColor: COLORS.light,
     width,
     marginHorizontal: 2,
