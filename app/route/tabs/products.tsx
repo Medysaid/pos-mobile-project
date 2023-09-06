@@ -33,7 +33,7 @@ export default function () {
   }
   return (
     <>
-      <AppBars title="POS Supplier" />
+      <AppBars title="POS Products" />
       <View style={styles.view}>
         <Searchbar
           placeholder="Search"

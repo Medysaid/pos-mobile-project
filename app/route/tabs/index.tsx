@@ -1,5 +1,5 @@
 // import React from 'react';
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   View,
   SafeAreaView,
@@ -9,6 +9,7 @@ import {
   Image,
   Dimensions,
   Pressable,
+  ScrollView,
 } from 'react-native';
 import { TextInput, TouchableOpacity } from 'react-native-gesture-handler';
 // import Icon from 'react-native-vector-icons';
@@ -20,6 +21,7 @@ import { Appbar, Card, FAB, SegmentedButtons } from 'react-native-paper';
 import { LineChart } from 'react-native-chart-kit';
 import AppBars from '../../../components/AppBars';
 import Icon from 'react-native-paper/src/components/Icon';
+import { router } from 'expo-router';
 const BOTTOM_APPBAR_HEIGHT = 80;
 const MEDIUM_FAB_HEIGHT = 56;
 const width = Dimensions.get('window').width / 2 - 30;
@@ -44,6 +46,24 @@ export default function () {
   const categories = ['POPULAR', 'ORGANIC', 'INDOORS', 'SYNTHETIC'];
 
   const [value, setValue] = React.useState('');
+  const resetValue = (value: any) => {
+    console.log(value);
+    switch (value) {
+      case 'Cost':
+        router.push('/route/components/');
+        // Perform action A when the switch is on
+        break;
+      case 'Purchase':
+        router.push('/route/components/purchase');
+        // Perform action B when the switch is off
+        break;
+      default:
+        router.push('/route/components/sales');
+        break;
+    }
+
+  };
+
   const data = {
     labels: ["January", "February", "March", "April", "May", "June"],
     datasets: [
@@ -128,6 +148,10 @@ export default function () {
       </TouchableOpacity>
     );
   };
+  const handleButtonPress = (arg0: string) => {
+    // throw new Error('Function not implemented.');
+  }
+
   return (
     <>
       <AppBars title="POS Home" />
@@ -137,7 +161,8 @@ export default function () {
         <View style={style.header}>
           <SegmentedButtons
             value={value}
-            onValueChange={setValue}
+            onValueChange={resetValue}
+
             buttons={[
               {
                 value: 'sale',
@@ -149,6 +174,7 @@ export default function () {
               },
               { value: 'Cost', label: 'Cost' },
             ]}
+
           />
         </View>
         <Card>
@@ -157,32 +183,120 @@ export default function () {
             <Text >TZS 1000</Text>
           </Card.Content>
         </Card>
-        <LineChart
-          style={{ marginTop: '5%' }}
-          data={data}
-          width={screenWidth}
-          height={220}
-          chartConfig={chartConfig}
-        />
-        <FlatList
-          columnWrapperStyle={{ justifyContent: 'space-between' }}
-          showsVerticalScrollIndicator={false}
-          contentContainerStyle={{
-            marginTop: 10,
-            paddingBottom: 40,
-          }}
-          numColumns={2}
-          data={plants}
-          renderItem={({ item }) => {
-            return <Card1 plant={item} />;
-          }}
-        />
+        <ScrollView>
+          <LineChart
+            style={{ marginTop: '5%' }}
+            data={data}
+            width={screenWidth}
+            height={220}
+            chartConfig={chartConfig}
+          />
 
-        <FlatList
-          data={users}
-          renderItem={renderItem}
-          keyExtractor={(item) => item.id}
-        />
+          {/* <View>
+            <FlatList
+              columnWrapperStyle={{ justifyContent: 'space-between' }}
+              showsVerticalScrollIndicator={false}
+              contentContainerStyle={{
+                marginTop: 10,
+                paddingBottom: 40,
+              }}
+              numColumns={2}
+              data={plants}
+              renderItem={({ item }) => {
+                return <Card1 plant={item} />;
+              }}
+              nestedScrollEnabled={true}
+            />
+          </View> */}
+          <View
+            style={[
+
+              {
+                marginTop: '2%',
+                flexDirection: 'row',
+                flexWrap: 'wrap',
+              },
+            ]}>
+            {plants.map((plant: any) => (
+              <TouchableOpacity
+                activeOpacity={0.8}
+                onPress={() => { }}>
+
+                <View style={style.card}>
+                  <View style={{ alignItems: 'flex-end' }}>
+                    <View
+                      style={{
+                        width: 30,
+                        height: 30,
+                        borderRadius: 20,
+                        justifyContent: 'center',
+                        alignItems: 'center',
+
+                      }}>
+
+                    </View>
+                  </View>
+
+                  <View
+                    style={{
+                      height: 100,
+                      alignItems: 'center',
+                    }}>
+                    <Image
+                      source={plant.img}
+                      style={{ flex: 1, resizeMode: 'contain' }}
+                    />
+                  </View>
+
+                  <Text style={{ fontWeight: 'bold', fontSize: 17, marginTop: 10 }}>
+                    {plant.name}
+                  </Text>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      justifyContent: 'space-between',
+                      marginTop: 5,
+                    }}>
+                    <Text style={{ fontSize: 19, fontWeight: 'bold' }}>
+                      TZS {plant.price}
+                    </Text>
+                    <View
+                      style={{
+                        height: 25,
+                        width: 25,
+                        backgroundColor: COLORS.green,
+                        borderRadius: 5,
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                      }}>
+                      <Text
+                        style={{ fontSize: 22, color: COLORS.white, fontWeight: 'bold' }}>
+                        +
+                      </Text>
+                    </View>
+                  </View>
+                </View>
+              </TouchableOpacity>
+            ))}
+          </View>
+          <View style={{ marginTop: '2%', }}>
+            {users.map((user) => (
+              <View style={style.userItem}>
+                <Icon source="pound-box" size={23} color="black" />
+                <Text style={style.userName}>{user.name}</Text>
+                <Text style={style.userName}>{user.total}</Text>
+              </View>
+            ))}
+            {/* <FlatList
+              data={users}
+              renderItem={renderItem}
+              keyExtractor={(item) => item.id}
+              nestedScrollEnabled={true}
+            /> */}
+          </View>
+        </ScrollView>
+
+
 
         {/* <FAB
         mode="flat"
@@ -203,6 +317,69 @@ export default function () {
 
 }
 const style = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 20,
+
+  },
+  gridItem: {
+    width: '48%', // Adjust this value for the desired column width
+    backgroundColor: 'white',
+    borderRadius: 10,
+    marginVertical: 8,
+    padding: 16,
+    shadowColor: 'rgba(0, 0, 0, 0.2)',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.8,
+    shadowRadius: 2,
+    elevation: 2,
+  },
+  card1: {
+    backgroundColor: 'white',
+    borderRadius: 10,
+    margin: 16,
+    padding: 16,
+    shadowColor: 'rgba(0, 0, 0, 0.2)',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.8,
+    shadowRadius: 2,
+    elevation: 2,
+  },
+  imageContainer: {
+    height: 100,
+    alignItems: 'center',
+  },
+  image: {
+    flex: 1,
+    resizeMode: 'contain',
+  },
+  name: {
+    fontWeight: 'bold',
+    fontSize: 17,
+    marginTop: 10,
+  },
+  priceContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 5,
+  },
+  price: {
+    fontSize: 19,
+    fontWeight: 'bold',
+  },
+  addButton: {
+    height: 25,
+    width: 25,
+    backgroundColor: 'green',
+    borderRadius: 5,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  addButtonText: {
+    fontSize: 22,
+    color: 'white',
+    fontWeight: 'bold',
+  },
   container1: {
     flex: 1,
     justifyContent: 'center',
@@ -274,8 +451,5 @@ const style = StyleSheet.create({
     position: 'absolute',
     right: 16,
   },
-  container: {
-    flex: 1,
-    alignItems: 'center',
-  },
+
 });
