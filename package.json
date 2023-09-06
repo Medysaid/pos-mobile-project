@@ -49,5 +49,8 @@
   "resolutions": {
     "react-refresh": "~0.14.0"
   },
-  "private": true
+  "private": true,
+  "volta": {
+    "node": "16.20.2"
+  }
 }
